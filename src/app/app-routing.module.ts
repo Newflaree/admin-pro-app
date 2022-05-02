@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // Routing
+import { AuthRoutingModule } from './auth/auth-routing.module';
 import { PagesRoutingModule } from './pages/pages-routing.module';
 // Components
-import { LoginComponent } from './auth/login/login.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
-import { RegisterComponent } from './auth/register/register.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  // path: '/dashboard', PagesRoutingModule
+  // path: '/auth', AuthRoutingModule
 
   { path: '**', component: NopagefoundComponent }
 ];
@@ -17,6 +16,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot( routes ),
+    AuthRoutingModule,
     PagesRoutingModule
   ],
   exports: [
