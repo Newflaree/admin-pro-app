@@ -12,7 +12,9 @@
   <input 
     type="number" 
     class="form-control" 
+    [ngClass]="{'is-invalid': progress > 100 || progress < 0}"
     placeholder="Progress"
+    (ngModelChange)="onChange( $event )"
     [(ngModel)]="progress"
   >
 
