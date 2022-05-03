@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 // Modules
 import { AuthModule } from './auth/auth.module';
+import { ComponentsModule } from './components/components.module';
 import { PagesModule } from './pages/pages.module';
 // Components
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    ComponentsModule,
     PagesModule,
     AuthModule
   ],
