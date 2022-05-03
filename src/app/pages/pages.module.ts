@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 // Modules
 import { SharedModule } from '../shared/shared.module';
 // Router
@@ -22,7 +23,8 @@ import { PagesComponent } from './pages.component';
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     DashboardComponent,
