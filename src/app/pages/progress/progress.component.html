@@ -9,6 +9,7 @@
           <div 
             class="progress-bar bg-primary progress-bar-striped active" 
             style="height:7px;" 
+            [style.width]="getProgress1"
             role="progressbar"
           > 
           </div>
@@ -20,6 +21,7 @@
           <div 
             class="progress-bar bg-info progress-bar-striped active"
             style="height:7px;" 
+            [style.width]="getProgress2"
             role="progressbar"
           > 
           </div>
@@ -35,7 +37,11 @@
   <div class="col-6">
     <div class="card">
       <div class="card-body">
-        <app-incrementer [progress]="15"></app-incrementer>
+        <app-incrementer 
+          (outputValue)="progress1 = $event"
+          [value]="progress1"
+        >
+        </app-incrementer>
       </div>
     </div>
   </div>
@@ -43,7 +49,11 @@
   <div class="col-6">
     <div class="card">
       <div class="card-body">
-        <app-incrementer></app-incrementer>
+        <app-incrementer
+          (outputValue)="progress2 = $event"
+          [value]="progress2"
+        >
+        </app-incrementer>
       </div>
     </div>
   </div>
