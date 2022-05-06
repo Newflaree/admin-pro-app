@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ChartData, ChartEvent, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-grafica1',
@@ -8,15 +7,15 @@ import { ChartData, ChartEvent, ChartType } from 'chart.js';
   ]
 })
 export class Grafica1Component {
-  public doughnutChartLabels: string[] = [ 'Download Sales', 'In-Store Sales', 'Mail-Order Sales' ];
-  public doughnutChartData: ChartData<'doughnut'> = {
-    labels: this.doughnutChartLabels,
-    datasets: [
-      { data: [ 350, 450, 100 ] },
-    ]
-  };
-  public chartColors: any[] = [
-    { backgroundColor: [ '#9E120E', '#FF5800', '#FFB414' ] }
-  ];
+  public labels1: string[] = [ 'Pan', 'Refrescos', 'Tacos' ];
+  public data1: any;
 
+  constructor() {
+    this.data1 = {
+      labels: this.labels1,
+      datasets: [
+        { data: [ 10, 15, 40 ] },
+      ]
+    }
+  }
 }
