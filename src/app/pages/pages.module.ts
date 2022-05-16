@@ -13,6 +13,7 @@ import { ComponentsModule } from '../components/components.module';
 import { SharedModule } from '../shared/shared.module';
 // Router
 import { RouterModule } from '@angular/router';
+import { PromesasComponent } from './promesas/promesas.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RouterModule } from '@angular/router';
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    PromesasComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { RouterModule } from '@angular/router';
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    PromesasComponent
   ]
 })
 export class PagesModule { }
