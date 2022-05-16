@@ -14,12 +14,48 @@ const routes: Routes = [
     path: 'dashboard', 
     component: PagesComponent,
     children: [
-      { path: '', component: DashboardComponent },
-      { path: 'progress', component: ProgressComponent },
-      { path: 'grafica1', component: Grafica1Component },
-      { path: 'account-settings', component: AccountSettingsComponent },
-      { path: 'promesas', component: PromesasComponent },
-      { path: 'rxjs', component: RxjsComponent },
+      { 
+        path: '',
+        component: DashboardComponent,
+        data: { 
+          title: 'Dashboard' 
+        } 
+      },
+      { 
+        path: 'progress',
+        component: ProgressComponent,
+        data: { 
+          title: 'Progress Bars' 
+        } 
+      },
+      { 
+        path: 'grafica1',
+        component: Grafica1Component,
+        data: { 
+          title: 'Graphics' 
+        } 
+      },
+      { 
+        path: 'account-settings',
+        component: AccountSettingsComponent,
+        data: { 
+          title: 'Account Settings' 
+        } 
+      },
+      { 
+        path: 'promesas',
+        component: PromesasComponent,
+        data: { 
+          title: 'Promises' 
+        } 
+      },
+      { 
+        path: 'rxjs',
+        component: RxjsComponent,
+        data: { 
+          title: 'ReactiveX' 
+        } 
+      },
     ]
   },
 ];

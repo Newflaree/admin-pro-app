@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivationEnd, Router } from '@angular/router';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -6,11 +8,25 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class BreadcrumbsComponent implements OnInit {
+export class BreadcrumbsComponent {
+  public title: string = '';
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    private router: Router
+  ) { 
+    this.getDataArgs();
   }
 
+  getDataArgs() {
+    this.router.events
+    .pipe(
+      filter( event => event instanceof ActivationEnd ),
+      filter( (event: any) => event.snapshot.firstChild === null ),
+      map( (event: any) => event.snapshot.data ),
+    )
+    .subscribe( ({ title }) => {
+      this.title = title;
+      document.title = `AdminPro - ${ title }`;
+    });
+  }
 }
