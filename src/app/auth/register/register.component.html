@@ -76,6 +76,7 @@
           <div class="col text-danger">
             <p *ngIf="invalidField( 'name' )">* Name is required</p>
             <p *ngIf="invalidField( 'email' )">* Email is required and must be valid</p>
+            <p *ngIf="invalidPasswords()">* Passwords must be the same</p>
             <p *ngIf="acceptTemrs()">* You must accept the terms and conditions</p>
           </div>
         </div>
