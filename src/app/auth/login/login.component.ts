@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   public fromSubmitted = false;
 
   public loginForm = this.fb.group({
-    email: [ 'test1@email.com', [ Validators.required, Validators.email ] ],
-    password: [ '123456', Validators.required ],
+    email: [ localStorage.getItem( 'email' ) || '', [ Validators.required, Validators.email ] ],
+    password: [ '', Validators.required ],
     remember: [ false ]
   });
 
@@ -33,7 +33,11 @@ export class LoginComponent implements OnInit {
   login() {
     this.userService.login( this.loginForm.value )
       .subscribe( resp => {
-        console.log( resp );
+        if ( this.loginForm.get( 'remember' )?.value ) {
+          localStorage.setItem( 'email', this.loginForm.get( 'email' )?.value );
+        } else {
+          localStorage.removeItem( 'email' );
+        }
       }, (err) => {
         const error = err.error.msg || err.error.errors[0].msg;
         Swal.fire( 'Error', error, 'error' );
