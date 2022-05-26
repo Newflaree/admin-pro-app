@@ -1,3 +1,7 @@
+import { environment } from "src/environments/environment";
+
+const base_url =  environment.base_url; 
+
 export class User {
   constructor(
     public name: string,
@@ -8,7 +12,11 @@ export class User {
     public uid?: string
   ) {}
 
-  getName(){
-    console.log( this.name );
+  get getImg() {
+    if ( !this.img ) {
+      return `${ base_url }/uploads/users/${ this.uid }`;
+    }
+
+    return this.img;
   }
 }

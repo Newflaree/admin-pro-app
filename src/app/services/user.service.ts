@@ -17,12 +17,18 @@ const base_url = environment.base_url;
   providedIn: 'root'
 })
 export class UserService {
-  private user: any;
+  public user: User;
 
   constructor( 
     private http: HttpClient,
     private router: Router
-  ) { }
+  ) { 
+    this.user = {  
+      name: '',
+      email: '',
+      getImg: ''
+    }
+  }
 
   tokenValidator(): Observable<boolean> {
     const token = localStorage.getItem( 'token' ) || '';
@@ -43,7 +49,6 @@ export class UserService {
         } = resp.user;
 
         this.user = new User(name, email,'',role,img,uid);
-        this.user.getName();
         console.log(this.user);
 
         localStorage.setItem( 'token', token );

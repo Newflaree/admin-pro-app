@@ -11,12 +11,15 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SidebarComponent {
   menuItems: any[];
+  public imgUrl: string = '';
+
 
   constructor(
     private sidebarService: SidebarService,
     private userService: UserService
   ) { 
     this.menuItems = sidebarService.menu;
+    this.imgUrl = userService.user.getImg;
   }
 
   logout() {
