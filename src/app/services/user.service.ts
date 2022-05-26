@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
+// rxjs
 import { Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
+// Enviroments
+import { environment } from 'src/environments/environment';
 // Interfaces
 import { LoginForm, RegisterForm } from '../interfaces';
 
@@ -12,7 +15,10 @@ const base_url = environment.base_url;
   providedIn: 'root'
 })
 export class UserService {
-  constructor( private http: HttpClient ) { }
+  constructor( 
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   tokenValidator(): Observable<boolean> {
     const token = localStorage.getItem( 'token' ) || '';
@@ -49,5 +55,10 @@ export class UserService {
           localStorage.setItem( 'token', token );
         })
       );
+  }
+
+  logout() {
+    localStorage.removeItem( 'token' );
+    this.router.navigateByUrl( '/login' );
   }
 }
