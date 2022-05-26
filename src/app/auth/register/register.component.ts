@@ -31,11 +31,14 @@ export class RegisterComponent {
 
   createUser() {
     this.fromSubmitted = true;
-    console.log( this.registerForm.value );
 
     if ( this.registerForm.invalid ) {
       return;
     } 
+
+    if ( !this.registerForm.get( 'terms' )?.value ) {
+      return;
+    }
 
     this.userService.createUser( this.registerForm.value )
       .subscribe( resp => {
