@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
@@ -32,6 +32,7 @@ import { ProfileComponent } from './profile/profile.component';
     CommonModule,
     ComponentsModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     SharedModule
   ],

@@ -30,12 +30,18 @@ export class UserService {
     }
   }
 
-  tokenValidator(): Observable<boolean> {
-    const token = localStorage.getItem( 'token' ) || '';
+  get token(): string {
+    return localStorage.getItem( 'token' ) || '';
+  }
 
+  get uid(): string {
+    return this.user.uid || '';
+  }
+
+  tokenValidator(): Observable<boolean> {
     return this.http.get(`${ base_url }/auth/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
       map( (resp:any) => {
@@ -66,6 +72,14 @@ export class UserService {
           localStorage.setItem( 'token', token );
         })
       );
+  }
+
+  updateUser( data: { email: string, name: string } ) {
+    return this.http.put( `${ base_url }/users/${ this.uid }`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
   }
 
   login( formData: LoginForm ) {
