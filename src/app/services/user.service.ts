@@ -8,6 +8,8 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 // Interfaces
 import { LoginForm, RegisterForm } from '../interfaces';
+// Models
+import { User } from '../models/user.model';
 
 const base_url = environment.base_url;
 
@@ -15,6 +17,8 @@ const base_url = environment.base_url;
   providedIn: 'root'
 })
 export class UserService {
+  private user: any;
+
   constructor( 
     private http: HttpClient,
     private router: Router
@@ -30,6 +34,18 @@ export class UserService {
     }).pipe(
       tap( (resp:any) => {
         const { token } = resp;
+        const {
+          email,
+          name,
+          role,
+          uid,
+          img
+        } = resp.user;
+
+        this.user = new User(name, email,'',role,img,uid);
+        this.user.getName();
+        console.log(this.user);
+
         localStorage.setItem( 'token', token );
       }),
       map( resp => true ),

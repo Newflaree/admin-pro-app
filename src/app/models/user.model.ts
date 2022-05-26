@@ -3,9 +3,12 @@ export class User {
     public name: string,
     public email: string,
     public password?: string,
-    public google?: string,
     public role?: string,
     public img?: string,
     public uid?: string
   ) {}
+
+  getName(){
+    console.log( this.name );
+  }
 }
