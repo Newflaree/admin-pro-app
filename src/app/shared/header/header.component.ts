@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+// Models
+import { User } from 'src/app/models/user.model';
 // Services
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,12 +11,12 @@ import { UserService } from 'src/app/services/user.service';
   ]
 })
 export class HeaderComponent {
-  public imgUrl: string = '';
+  public user: User;
 
   constructor(
     private userService: UserService
   ) { 
-    this.imgUrl = userService.user.getImg;
+    this.user = userService.user;
   }
 
   logout() {

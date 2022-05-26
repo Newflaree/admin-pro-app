@@ -48,7 +48,7 @@ export class UserService {
           img
         } = resp.user;
 
-        this.user = new User(name, email,'',role,img,uid);
+        this.user = new User(name, email, '', role, img, uid);
         console.log(this.user);
 
         localStorage.setItem( 'token', token );
