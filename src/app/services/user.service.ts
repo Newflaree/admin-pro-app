@@ -38,7 +38,7 @@ export class UserService {
         'x-token': token
       }
     }).pipe(
-      tap( (resp:any) => {
+      map( (resp:any) => {
         const { token } = resp;
         const {
           email,
@@ -52,8 +52,8 @@ export class UserService {
         console.log(this.user);
 
         localStorage.setItem( 'token', token );
+        return true;
       }),
-      map( resp => true ),
       catchError( error => of(false) )
     );
   }
