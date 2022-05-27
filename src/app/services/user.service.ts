@@ -59,7 +59,6 @@ export class UserService {
         } = resp.user;
 
         this.user = new User(name, email, '', role, img, uid);
-        console.log(this.user);
 
         localStorage.setItem( 'token', token );
         return true;
@@ -121,5 +120,9 @@ export class UserService {
   deleteUser( user: User ) {
     const url = `${ base_url }/users/${ user.uid }`;
     return this.http.delete( url, this.headers );
+  }
+
+  saveUser( user: User ) {
+    return this.http.put( `${ base_url }/users/${ user.uid }`, user, this.headers )
   }
 }

@@ -44,7 +44,7 @@
                 <th class="w100">Avatar</th>
                 <th>Email</th>
                 <th>Name</th>
-                <th>Role</th>
+                <th class="w140">Role</th>
                 <th class="text-nowrap w100">Action</th>
               </tr>
             </thead>
@@ -60,10 +60,17 @@
                 </td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.name }}</td>
-                <td>{{ user.role }}</td>
+                <td>
+                  <select 
+                    class="form-control"
+                    [(ngModel)]="user.role"
+                    (change)="changeRole( user )"
+                  >
+                    <option value="ADMIN_ROLE">Admin</option>
+                    <option value="USER_ROLE">User</option>
+                  </select>
+                </td>
                 <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-
                   <a 
                     data-toggle="tooltip"
                     class="cursor-pointer"

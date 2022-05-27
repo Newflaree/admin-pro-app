@@ -91,4 +91,15 @@ export class UsersComponent implements OnInit {
       }
     })
   }
+
+  changeRole( user: User ) {
+    this.userService.saveUser(user)
+    .subscribe( resp => {
+      Swal.fire( 
+        'Success',
+        `User ${ user.name } now has ${ user.role }`,
+        'success' 
+      )
+    })
+  }
 }

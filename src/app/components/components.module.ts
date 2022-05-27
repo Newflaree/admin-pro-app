@@ -7,11 +7,13 @@ import { NgChartsModule } from 'ng2-charts';
 // Components
 import { IncrementerComponent } from './incrementer/incrementer.component';
 import { DoughnutComponent } from './doughnut/doughnut.component';
+import { NodalImgComponent } from './nodal-img/nodal-img.component';
 
 @NgModule({
   declarations: [
     IncrementerComponent,
-    DoughnutComponent
+    DoughnutComponent,
+    NodalImgComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { DoughnutComponent } from './doughnut/doughnut.component';
   ],
   exports: [
     IncrementerComponent,
-    DoughnutComponent
+    DoughnutComponent,
+    NodalImgComponent
   ]
 })
 export class ComponentsModule { }
