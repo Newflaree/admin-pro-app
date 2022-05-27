@@ -11,6 +11,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+      // Maintenance
+import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
+import { UsersComponent } from './maintenance/users/users.component';
 
 const routes: Routes = [
   { 
@@ -67,6 +71,29 @@ const routes: Routes = [
           title: 'Profile' 
         } 
       },
+
+      // Maintenance
+      { 
+        path: 'users',
+        component: UsersComponent,
+        data: { 
+          title: 'Users'
+        } 
+      },
+      { 
+        path: 'hospitals',
+        component: HospitalsComponent,
+        data: { 
+          title: 'Hospitals'
+        } 
+      },
+      { 
+        path: 'doctors',
+        component: DoctorsComponent,
+        data: { 
+          title: 'Doctors'
+        } 
+      }
     ]
   },
 ];
