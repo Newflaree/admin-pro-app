@@ -7,7 +7,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 // Enviroments
 import { environment } from 'src/environments/environment';
 // Interfaces
-import { LoginForm, RegisterForm } from '../interfaces';
+import { LoadUser, LoginForm, RegisterForm } from '../interfaces';
 // Models
 import { User } from '../models/user.model';
 
@@ -37,13 +37,17 @@ export class UserService {
   get uid(): string {
     return this.user.uid || '';
   }
-
-  tokenValidator(): Observable<boolean> {
-    return this.http.get(`${ base_url }/auth/renew`, {
+  
+  get headers() {
+    return {
       headers: {
         'x-token': this.token
       }
-    }).pipe(
+    }
+  }
+
+  tokenValidator(): Observable<boolean> {
+    return this.http.get(`${ base_url }/auth/renew`, this.headers ).pipe(
       map( (resp:any) => {
         const { token } = resp;
         const {
@@ -75,11 +79,7 @@ export class UserService {
   }
 
   updateUser( data: { email: string, name: string } ) {
-    return this.http.put( `${ base_url }/users/${ this.uid }`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    return this.http.put( `${ base_url }/users/${ this.uid }`, data, this.headers );
   }
 
   login( formData: LoginForm ) {
@@ -95,5 +95,12 @@ export class UserService {
   logout() {
     localStorage.removeItem( 'token' );
     this.router.navigateByUrl( '/login' );
+  }
+
+  loadUsers( from: number = 0 ) {
+    return this.http.get<LoadUser>( `${ base_url }/users`, this.headers )
+    .pipe(
+      map( (resp:any) => resp )
+    );
   }
 }
