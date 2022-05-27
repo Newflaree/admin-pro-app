@@ -29,6 +29,26 @@
 
         <div class="modal-body">
           <h3>Select an image</h3>
+          <div class="text-center">
+            <img 
+              *ngIf="!imgTemp"
+              [src]="modalImgService.img"
+              alt=""
+              class="my-4 img-avatar"
+            />
+            <img 
+              *ngIf="imgTemp"
+              [src]="imgTemp" 
+              alt=""
+              class="my-4 img-avatar"
+            />
+          </div>
+
+          <input 
+            type="file" 
+            (change)="changeImg($event)"
+          />
+
         </div>
 
         <div class="modal-footer">
