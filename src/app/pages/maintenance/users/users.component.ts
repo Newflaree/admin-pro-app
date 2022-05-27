@@ -63,8 +63,12 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  deleteUser( user: User ) {
-    Swal.fire({
+  async deleteUser( user: User ) {
+    if ( user.uid === this.userService.uid ) {
+      return Swal.fire( 'Error', "Can't erase itself", 'error' );
+    }
+
+    return await Swal.fire({
       title: 'Are you sure to delete this user?',
       text: `You are about to delete user ${ user.name }`,
       icon: 'question',
@@ -72,6 +76,7 @@ export class UsersComponent implements OnInit {
       confirmButtonColor: '#3085D6',
       cancelButtonColor: '#D33',
       confirmButtonText: 'Yes, delete it'
+
     }).then( (result) => {
       if ( result.value ) {
         this.userService.deleteUser( user )
