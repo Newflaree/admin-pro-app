@@ -18,3 +18,12 @@
   height: 200px;
   border-radius: 8px;
 }
+
+.w100 {
+  width: 100px;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 35px;
+}
