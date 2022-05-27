@@ -55,7 +55,8 @@
                   <img 
                     [src]="user.getImg"
                     alt="User image"
-                    class="avatar"
+                    class="avatar cursor-pointer"
+                    (click)="openModal( user )"
                   />
                 </td>
                 <td>{{ user.email }}</td>
