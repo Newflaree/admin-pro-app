@@ -14,6 +14,7 @@ import { SearchesService } from 'src/app/services/searches.service';
 export class UsersComponent implements OnInit {
   public totalUsers: number = 0;
   public users: User[] = [];
+  public usersTemp: User[] = [];
   public from: number = 0;
   public loading: boolean = true;
 
@@ -32,6 +33,7 @@ export class UsersComponent implements OnInit {
     .subscribe( ({ total, users }) => {
       this.totalUsers = total;
       this.users = users;
+      this.usersTemp = users;
       this.loading = false;
     });
   }
@@ -50,7 +52,11 @@ export class UsersComponent implements OnInit {
   }
 
   search( term: string ) {
-    this.searchesService.search( 'users', term )
+    if ( term.length === 0 ) {
+      return this.users = this.usersTemp;
+    }
+
+    return this.searchesService.search( 'users', term )
     .subscribe( resp => {
       this.users = resp;
     })

@@ -70,9 +70,11 @@
           </table>
         </div>
 
-        <button (click)="changePage( -5 )" class="btn btn-secondary">Preview</button>
-        &nbsp;
-        <button (click)="changePage( 5 )" class="btn btn-secondary">Next</button>
+        <div *ngIf="termValue.value.length === 0">
+          <button (click)="changePage( -5 )" class="btn btn-secondary">Preview</button>
+          &nbsp;
+          <button (click)="changePage( 5 )" class="btn btn-secondary">Next</button>
+        </div>
 
       </div>
     </div>
