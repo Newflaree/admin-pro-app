@@ -28,7 +28,13 @@ export class FileUploadService {
 
       const data = await resp.json();
 
-      return data;
+      if ( data.ok ) {
+        return data.model.img;
+
+      } else {
+        return false;
+
+      }
 
     } catch ( err ) {
       console.log( err );

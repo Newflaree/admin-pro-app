@@ -64,7 +64,20 @@
         <h4>Avatar</h4>
         <h6>User image</h6>
 
-        <img src="" alt="">
+        <div class="text-center">
+          <img 
+            *ngIf="!imgTemp"
+            [src]="user.getImg" 
+            alt=""
+            class="my-4 img-avatar"
+          />
+          <img 
+            *ngIf="imgTemp"
+            [src]="imgTemp" 
+            alt=""
+            class="my-4 img-avatar"
+          />
+        </div>
 
         <input 
           type="file" 
