@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 // Models
 import { User } from 'src/app/models/user.model';
 // Services
@@ -59,6 +60,30 @@ export class UsersComponent implements OnInit {
     return this.searchesService.search( 'users', term )
     .subscribe( resp => {
       this.users = resp;
+    })
+  }
+
+  deleteUser( user: User ) {
+    Swal.fire({
+      title: 'Are you sure to delete this user?',
+      text: `You are about to delete user ${ user.name }`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085D6',
+      cancelButtonColor: '#D33',
+      confirmButtonText: 'Yes, delete it'
+    }).then( (result) => {
+      if ( result.value ) {
+        this.userService.deleteUser( user )
+        .subscribe( resp => {
+          this.loadUsers();
+          Swal.fire(
+            'User deleted',
+            `${ user.name } was successfully deleted`,
+            'success'
+          );
+        })
+      }
     })
   }
 }
