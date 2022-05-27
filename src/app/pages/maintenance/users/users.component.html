@@ -7,6 +7,8 @@
           type="text"
           class="form-control"
           placeholder="Search user"
+          (keyup)="search( termValue.value )"
+          #termValue
         /> 
 
       </div>

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 // Services
 import { UserService } from 'src/app/services/user.service';
+import { SearchesService } from 'src/app/services/searches.service';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +18,8 @@ export class UsersComponent implements OnInit {
   public loading: boolean = true;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private searchesService: SearchesService
   ) { }
 
   ngOnInit(): void {
@@ -45,5 +47,12 @@ export class UsersComponent implements OnInit {
     }
 
     this.loadUsers();
+  }
+
+  search( term: string ) {
+    this.searchesService.search( 'users', term )
+    .subscribe( resp => {
+      this.users = resp;
+    })
   }
 }
