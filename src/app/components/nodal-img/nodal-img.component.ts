@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 // Models
-import { User } from 'src/app/models/user.model';
 // Services
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { ModalImgService } from 'src/app/services/modal-img.service';
-import {UserService} from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-nodal-img',
@@ -16,7 +16,8 @@ export class NodalImgComponent implements OnInit {
   public imgTemp: any = null;
 
   constructor( 
-    public modalImgService: ModalImgService
+    public modalImgService: ModalImgService,
+    private fileUploadService: FileUploadService
   ) { 
   }
 
@@ -42,5 +43,22 @@ export class NodalImgComponent implements OnInit {
     return reader.onloadend = () => {
       this.imgTemp = reader.result;
     }
+  }
+
+  uploadFile() {
+    const id = this.modalImgService.id;
+    const type = this.modalImgService.type;
+    
+    this.fileUploadService.updateImg( this.uploadedImg, type, id )
+    .then( img => {
+      Swal.fire( 'Saved', 'Image updated successfully', 'success' );
+      this.modalImgService.newImg.emit( img );
+
+      this.closeModal();
+    })
+    .catch( err => {
+      //TODO: implementar error desde el backend
+      console.log( err );
+    });
   }
 }

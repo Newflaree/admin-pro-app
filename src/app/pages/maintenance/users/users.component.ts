@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 // Models
 import { User } from 'src/app/models/user.model';
@@ -6,6 +6,8 @@ import { User } from 'src/app/models/user.model';
 import { ModalImgService } from 'src/app/services/modal-img.service';
 import { SearchesService } from 'src/app/services/searches.service';
 import { UserService } from 'src/app/services/user.service';
+import { delay } from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -13,19 +15,28 @@ import { UserService } from 'src/app/services/user.service';
   styles: [
   ]
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   public totalUsers: number = 0;
   public users: User[] = [];
   public usersTemp: User[] = [];
   public from: number = 0;
   public loading: boolean = true;
+  public imgSubs: Subscription;
 
   constructor(
     private userService: UserService,
     private searchesService: SearchesService,
     private modalImgService: ModalImgService
 
-  ) { }
+  ) { 
+    this.imgSubs = this.modalImgService.newImg
+      .pipe( delay( 100 ) )
+      .subscribe( img => this.loadUsers() );
+  }
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.loadUsers();

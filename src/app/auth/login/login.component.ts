@@ -45,7 +45,5 @@ export class LoginComponent implements OnInit {
         const error = err.error.msg || err.error.errors[0].msg;
         Swal.fire( 'Error', error, 'error' );
       })
-
-    //this.router.navigateByUrl( '/' );
   }
 }
