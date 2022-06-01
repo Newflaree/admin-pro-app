@@ -31,7 +31,13 @@ export class HospitalService {
   loadHospitals( from: number = 0 ) {
     return this.http.get( `${ base_url }/hospitals/?from=${ from }`, this.headers )
     .pipe(
-      map( (resp: { ok?: boolean, hospitals?: Hospital[] }) => resp.hospitals )
+      map( (resp: { ok?: boolean, total?: number, hospitals?: Hospital[] }) => {
+        return {
+          ok: resp.ok,
+          total: resp.total,
+          hospitals: resp.hospitals,
+        }
+      })
     )
   }
 }

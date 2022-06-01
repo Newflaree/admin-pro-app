@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Hospital} from 'src/app/models/hospital.model';
 // Services
 import { HospitalService } from 'src/app/services/hospital.service';
 
@@ -9,15 +10,26 @@ import { HospitalService } from 'src/app/services/hospital.service';
   ]
 })
 export class HospitalsComponent implements OnInit {
+  public hospitals: Hospital[] = [];
+  public total: number = 0;
+  public loading: boolean = true;
 
   constructor(
     private hospitalService: HospitalService
   ) { }
 
   ngOnInit(): void {
+    this.loadHospitals();
+  }
+
+  loadHospitals() {
+    this.loading = true;
+
     this.hospitalService.loadHospitals()
-    .subscribe( resp => {
-      console.log( resp )
+    .subscribe( (data) => {
+      this.loading = false;
+      this.total = data.total || 0;
+      this.hospitals = data.hospitals || [];
     })
   }
 }
