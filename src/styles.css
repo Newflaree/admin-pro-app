@@ -19,6 +19,10 @@
   border-radius: 8px;
 }
 
+.w100p {
+  width: 100%;
+}
+
 .w100 {
   width: 100px;
 }

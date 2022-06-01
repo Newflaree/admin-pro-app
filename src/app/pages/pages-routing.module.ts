@@ -77,21 +77,21 @@ const routes: Routes = [
         path: 'users',
         component: UsersComponent,
         data: { 
-          title: 'Users'
+          title: 'User Maintenance'
         } 
       },
       { 
         path: 'hospitals',
         component: HospitalsComponent,
         data: { 
-          title: 'Hospitals'
+          title: 'Hospital Maintenance'
         } 
       },
       { 
         path: 'doctors',
         component: DoctorsComponent,
         data: { 
-          title: 'Doctors'
+          title: 'Doctor Maintenance'
         } 
       }
     ]
