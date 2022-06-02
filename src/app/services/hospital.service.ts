@@ -29,7 +29,10 @@ export class HospitalService {
   }
 
   loadHospitals( from: number = 0 ) {
-    return this.http.get( `${ base_url }/hospitals/?from=${ from }`, this.headers )
+    return this.http.get( 
+      `${ base_url }/hospitals/?from=${ from }`,
+      this.headers
+    )
     .pipe(
       map( (resp: { ok?: boolean, total?: number, hospitals?: Hospital[] }) => {
         return {
@@ -39,5 +42,28 @@ export class HospitalService {
         }
       })
     )
+  }
+
+  createHospital( name: string ) {
+    return this.http.post(
+      `${ base_url }/hospitals`,
+      { name },
+      this.headers
+    );
+  }
+
+  updateHospital( _id: string, name: string ) {
+    return this.http.put(
+      `${ base_url }/hospitals/${ _id }`,
+      { name },
+      this.headers
+    );
+  }
+
+  deleteHospital( _id: string ) {
+    return this.http.delete(
+      `${ base_url }/hospitals/${ _id }`,
+      this.headers
+    );
   }
 }
