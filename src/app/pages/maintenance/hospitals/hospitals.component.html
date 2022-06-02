@@ -36,7 +36,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Total Hospitals ({{ total }})</h4>
+        <h4 class="card-title">Total Hospitals ({{ totalHospitals }})</h4>
         <h6 class="card-subtitle">Registered hospitals</h6>
 
         <div class="table-responsive">
@@ -52,7 +52,13 @@
 
             <tbody>
               <tr *ngFor="let hospital of hospitals">
-                <td>{{ hospital.img }}</td>
+                <td>
+                  <img
+                    [src]="hospital.img | image:'hospitals':hospital._id"
+                    [alt]="hospital.name"
+                    class="avatar cursor-pointer"
+                  >
+                </td>
                 <td>
                   <input 
                     type="text"
@@ -70,9 +76,21 @@
           </table>
         </div>
 
-        <button class="btn btn-secondary">Preview</button>
+        <button 
+          class="btn btn-secondary"
+          *ngIf="totalHospitals >= 5 || from >= 5"
+          (click)="changePage( -5 )"
+        >
+          Preview
+        </button>
         &nbsp;
-        <button class="btn btn-secondary">Next</button>
+        <button 
+          class="btn btn-secondary"
+          *ngIf="totalHospitals >= 5"
+          (click)="changePage( 5 )"
+        >
+          Next
+        </button>
 
       </div>
     </div>

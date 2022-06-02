@@ -53,7 +53,7 @@
               <tr *ngFor="let user of users">
                 <td class="text-center">
                   <img 
-                    [src]="user.getImg"
+                    [src]="user.img | image:'users':user.uid"
                     alt="User image"
                     class="avatar cursor-pointer"
                     (click)="openModal( user )"
@@ -87,7 +87,11 @@
         </div>
 
         <div *ngIf="termValue.value.length === 0">
-          <button (click)="changePage( -5 )" class="btn btn-secondary">Preview</button>
+          <button (click)="changePage( -5 )" 
+            *ngIf="totalUsers >= 5 || from >= 5"
+            class="btn btn-secondary">
+            Preview
+          </button>
           &nbsp;
           <button (click)="changePage( 5 )" class="btn btn-secondary">Next</button>
         </div>

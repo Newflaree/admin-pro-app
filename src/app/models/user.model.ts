@@ -10,8 +10,8 @@ export class User {
     public role?: string,
     public img?: string,
     public uid?: string
-  ) {}
 
+  ) {}
   get getImg() {
     if ( !this.img ) {
       return `${ base_url }/uploads/users/${ this.uid }`;

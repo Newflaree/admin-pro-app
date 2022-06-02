@@ -67,7 +67,7 @@
         <div class="text-center">
           <img 
             *ngIf="!imgTemp"
-            [src]="user.getImg" 
+            [src]="user.img | image:'users':user.uid" 
             alt=""
             class="my-4 img-avatar"
           />

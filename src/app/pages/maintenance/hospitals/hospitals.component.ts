@@ -10,9 +10,11 @@ import { HospitalService } from 'src/app/services/hospital.service';
   ]
 })
 export class HospitalsComponent implements OnInit {
+  public totalHospitals: number = 0;
   public hospitals: Hospital[] = [];
-  public total: number = 0;
+  public from: number = 0;
   public loading: boolean = true;
+  public type: string = 'hospitals';
 
   constructor(
     private hospitalService: HospitalService
@@ -25,11 +27,24 @@ export class HospitalsComponent implements OnInit {
   loadHospitals() {
     this.loading = true;
 
-    this.hospitalService.loadHospitals()
+    this.hospitalService.loadHospitals( this.from )
     .subscribe( (data) => {
       this.loading = false;
-      this.total = data.total || 0;
+      this.totalHospitals = data.total || 0;
       this.hospitals = data.hospitals || [];
     })
+  }
+
+  changePage( value: number ) {
+    this.from += value;
+
+    if ( this.from < 0 ) {
+      this.from = 0;
+
+    } else if ( this.from > this.totalHospitals ) {
+      this.from -= value;
+    }
+
+    this.loadHospitals();
   }
 }
