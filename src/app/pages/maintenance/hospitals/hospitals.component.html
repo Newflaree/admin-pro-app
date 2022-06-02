@@ -22,7 +22,10 @@
 
           <div class="col-4">
             <div class="text-right">
-              <button class="btn btn-primary">
+              <button 
+                (click)="openSweetAlertModal()"
+                class="btn btn-primary"
+              >
                 <i class="fa fa-hospital-o"></i>
                 Create Hospital
               </button>
@@ -45,10 +48,6 @@
           </div>
         </div>
 
-
-
-
-
         <div 
           class="row"
           *ngIf="!loading"
@@ -62,18 +61,19 @@
 
                     <thead>
                       <tr>
-                        <th>Picture</th>
+                        <th class="w100">Picture</th>
                         <th>Name</th>
-                        <th class="text-nowrap">Action</th>
+                        <th class="w100 text-nowrap">Action</th>
                       </tr>
                     </thead>
 
                     <tbody>
                       <tr *ngFor="let hospital of hospitals">
-                        <td>
+                        <td class="text-center">
                           <img
                             [src]="hospital.img | image:'hospitals':hospital._id"
                             [alt]="hospital.name"
+                            (click)="openModal( hospital )"
                             class="avatar cursor-pointer"
                           >
                         </td>
@@ -86,8 +86,23 @@
                           />
                         </td>
                         <td class="text-nowrap text-center">
-                          <a href="#" data-toggle="tooltip" data-original-title="Save"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                          <a href="#" data-toggle="tooltip" data-original-title="Delete"> <i class="fa fa-close text-danger"></i> </a>
+                          <a
+                            (click)="saveChanges( hospital )"
+                            class="cursor-pointer"
+                            data-toggle="tooltip"
+                            data-original-title="Save"
+                          >
+                            <i class="fa fa-pencil text-inverse m-r-10"></i>
+                          </a>
+
+                          <a
+                            (click)="deleteHospital( hospital )"
+                            class="cursor-pointer"
+                            data-toggle="tooltip"
+                            data-original-title="Delete"
+                          >
+                            <i class="fa fa-close text-danger"></i>
+                          </a>
                         </td>
                       </tr>
                     </tbody>
@@ -114,9 +129,7 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   </div>
 </div>

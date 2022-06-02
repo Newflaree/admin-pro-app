@@ -14,7 +14,6 @@ export class ImagePipe implements PipeTransform {
     type?: 'users' | 'hospitals' | 'doctors',
     uid: string = ''
   ): string {
-    console.log( img, type, uid );
     if ( !img ) {
       return `${ base_url }/uploads/${ type }/${ uid }`;
     }
