@@ -19,6 +19,7 @@ import { UsersComponent } from './maintenance/users/users.component';
 import { ComponentsModule } from '../components/components.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { SharedModule } from '../shared/shared.module';
+import { DoctorComponent } from './maintenance/doctors/doctor.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SharedModule } from '../shared/shared.module';
     ProfileComponent,
     UsersComponent,
     HospitalsComponent,
-    DoctorsComponent
+    DoctorsComponent,
+    DoctorComponent
   ],
   imports: [
     CommonModule,

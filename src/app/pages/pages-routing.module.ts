@@ -13,6 +13,7 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
       // Maintenance
 import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+import { DoctorComponent } from './maintenance/doctors/doctor.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { UsersComponent } from './maintenance/users/users.component';
 
@@ -77,19 +78,26 @@ const routes: Routes = [
         path: 'users',
         component: UsersComponent,
         data: { 
-          title: 'User Maintenance'
+          title: 'Users Maintenance'
         } 
       },
       { 
         path: 'hospitals',
         component: HospitalsComponent,
         data: { 
-          title: 'Hospital Maintenance'
+          title: 'Hospitals Maintenance'
         } 
       },
       { 
         path: 'doctors',
         component: DoctorsComponent,
+        data: { 
+          title: 'Doctors Maintenance'
+        } 
+      },
+      { 
+        path: 'doctor/:id',
+        component: DoctorComponent,
         data: { 
           title: 'Doctor Maintenance'
         } 
