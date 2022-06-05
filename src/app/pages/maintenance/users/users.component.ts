@@ -7,7 +7,7 @@ import { ModalImgService } from 'src/app/services/modal-img.service';
 import { SearchesService } from 'src/app/services/searches.service';
 import { UserService } from 'src/app/services/user.service';
 import { delay } from 'rxjs/operators';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -72,7 +72,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
 
     return this.searchesService.search( 'users', term )
-    .subscribe( resp => {
+    .subscribe( (resp: any) => {
       this.users = resp;
     })
   }
@@ -89,7 +89,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonColor: '#3085D6',
       cancelButtonColor: '#D33',
-      confirmButtonText: 'Yes, delete it'
+      confirmButtonText: 'Yes, delete this'
 
     }).then( (result) => {
       if ( result.value ) {

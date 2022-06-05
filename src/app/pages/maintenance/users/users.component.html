@@ -37,7 +37,8 @@
         <h6 class="card-subtitle">Registered users</h6>
 
         <div class="table-responsive">
-          <table class="table table-bordered">
+          <p *ngIf="users.length === 0" class="text-center">There are no users to show</p>
+          <table *ngIf="users.length > 0" class="table table-bordered">
 
             <thead>
               <tr>
@@ -54,9 +55,9 @@
                 <td class="text-center">
                   <img 
                     [src]="user.img | image:'users':user.uid"
-                    alt="User image"
-                    class="avatar cursor-pointer"
+                    [alt]="user.name"
                     (click)="openModal( user )"
+                    class="avatar cursor-pointer"
                   />
                 </td>
                 <td>{{ user.email }}</td>

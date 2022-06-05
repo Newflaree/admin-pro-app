@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { delay, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 // Models
 import { Hospital } from 'src/app/models/hospital.model';
 // Services
-import { HospitalService } from 'src/app/services/hospital.service';
-import { ModalImgService } from 'src/app/services/modal-img.service';
+import {
+  HospitalService,
+  ModalImgService,
+  SearchesService
+} from 'src/app/services';
 
 @Component({
   selector: 'app-hospitals',
@@ -13,9 +16,10 @@ import { ModalImgService } from 'src/app/services/modal-img.service';
   styles: [
   ]
 })
-export class HospitalsComponent implements OnInit {
+export class HospitalsComponent implements OnInit, OnDestroy {
   public totalHospitals: number = 0;
   public hospitals: Hospital[] = [];
+  public hospitalsTemp: Hospital[] = [];
   public from: number = 0;
   public loading: boolean = true;
   public type: string = 'hospitals';
@@ -24,11 +28,16 @@ export class HospitalsComponent implements OnInit {
 
   constructor(
     private hospitalService: HospitalService,
-    private modalImgService: ModalImgService
+    private modalImgService: ModalImgService,
+    private searchesService: SearchesService
   ) { 
     this.imgSubs = this.modalImgService.newImg
       .pipe( delay( 100 ) )
       .subscribe( img => this.loadHospitals() );
+  }
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -39,10 +48,11 @@ export class HospitalsComponent implements OnInit {
     this.loading = true;
 
     this.hospitalService.loadHospitals( this.from )
-    .subscribe( (data) => {
+    .subscribe( ({ total, hospitals }) => {
+      this.totalHospitals = total || 0;
+      this.hospitals = hospitals || [];
+      this.hospitalsTemp = hospitals || [];
       this.loading = false;
-      this.totalHospitals = data.total || 0;
-      this.hospitals = data.hospitals || [];
     })
   }
 
@@ -79,17 +89,29 @@ export class HospitalsComponent implements OnInit {
     });
   }
 
-  deleteHospital( hospital: Hospital ) {
+  async deleteHospital( hospital: Hospital ) {
     const { _id = '' } = hospital;
 
-    this.hospitalService.deleteHospital( _id )
-    .subscribe( (resp: any) => {
-      this.loadHospitals();
-      Swal.fire( 
-        'Success',
-        resp.msg,
-        'success' 
-      );
+    return await Swal.fire({
+      title: 'Are you sure to delete this hospital?',
+      text: `You are about to delete ${ hospital.name } hispital`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085D6',
+      cancelButtonColor: '#D33',
+      confirmButtonText: 'Yes, delete this'
+    }). then( (result) => {
+      if ( result.value ) {
+        this.hospitalService.deleteHospital( _id )
+        .subscribe( resp => {
+          this.loadHospitals();
+          Swal.fire(
+            'Hospital Deleted',
+            `Hospital ${ hospital.name } was successfully deleted`,
+            'success'
+          );
+        });
+      }
     });
   }
 
@@ -105,6 +127,7 @@ export class HospitalsComponent implements OnInit {
     if ( value.trim().length > 0 ) {
       this.hospitalService.createHospital( value )
       .subscribe( (resp: any) => {
+        Swal.fire( 'Success', 'Hospital created successfully', 'success' );
         this.hospitals.push( resp.hospital )
       }, err => {
         Swal.fire( 
@@ -117,6 +140,17 @@ export class HospitalsComponent implements OnInit {
   }
 
   openModal( hospital: Hospital ) {
-    this.modalImgService.openModal( 'hospitals', hospital._id || '', hospital.img );
+    this.modalImgService.openModal( 'hospitals', hospital._id || '', hospital.img || '' );
+  }
+
+  search( term: string = '' ) {
+    if ( term.length === 0 ) {
+      return this.hospitals = this.hospitalsTemp ;
+    }
+
+    return this.searchesService.search( 'hospitals', term )
+    .subscribe( (resp: any) => {
+      this.hospitals = resp;
+    })
   }
 }

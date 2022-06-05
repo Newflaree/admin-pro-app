@@ -7,6 +7,8 @@
           type="text"
           class="form-control"
           placeholder="Search Hospital"
+          (keyup)="search( termValue.value )"
+          #termValue
         /> 
       </div>
     </div>
@@ -57,8 +59,9 @@
               <div class="card-body">
 
                 <div class="table-responsive">
-                  <table class="table table-bordered">
+                  <p *ngIf="hospitals.length === 0" class="text-center">There are no hospitals to show</p>
 
+                  <table *ngIf="hospitals.length > 0" class="table table-bordered">
                     <thead>
                       <tr>
                         <th class="w100">Picture</th>
