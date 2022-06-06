@@ -97,7 +97,7 @@ export class UserService {
   }
 
   loadUsers( from: number = 0 ) {
-    return this.http.get<LoadUser>( `${ base_url }/users/?from=${ from }`, this.headers )
+    return this.http.get<LoadUser>( `${ base_url }/users?from=${ from }`, this.headers )
     .pipe(
       map( (resp:any) => {
         const users = resp.users.map( (user: User) => new User( 

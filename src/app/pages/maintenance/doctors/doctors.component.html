@@ -77,7 +77,7 @@
                       <tr *ngFor="let doctor of doctors">
                         <td class="text-center">
                           <img
-                            [src]="doctor.img | image:'hospitals':doctor._id"
+                            [src]="doctor.img | image:'doctors':doctor._id"
                             [alt]="doctor.name"
                             (click)="openModal( doctor )"
                             class="avatar cursor-pointer"

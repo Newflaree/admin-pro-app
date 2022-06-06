@@ -20,7 +20,7 @@ export class ModalImgService {
 
   openModal(  
     type: 'users' | 'doctors' | 'hospitals',
-    id: string,
+    id: string = '',
     img?: string
   ) {
     this._hideModal = false;
@@ -29,7 +29,7 @@ export class ModalImgService {
     this.id = id;
     this.img = img || '';
 
-    if ( !img ) {
+    if ( !img || img.length === 0 ) {
       return this.img = `${ base_url }/uploads/${ type }/${ id }`;
     }
 

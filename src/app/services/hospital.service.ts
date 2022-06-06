@@ -30,7 +30,7 @@ export class HospitalService {
 
   loadHospitals( from: number = 0 ) {
     return this.http.get( 
-      `${ base_url }/hospitals/?from=${ from }`,
+      `${ base_url }/hospitals?from=${ from }`,
       this.headers
     )
     .pipe(

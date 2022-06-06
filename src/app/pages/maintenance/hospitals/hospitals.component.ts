@@ -100,7 +100,7 @@ export class HospitalsComponent implements OnInit, OnDestroy {
       confirmButtonColor: '#3085D6',
       cancelButtonColor: '#D33',
       confirmButtonText: 'Yes, delete this'
-    }). then( (result) => {
+    }).then( (result) => {
       if ( result.value ) {
         this.hospitalService.deleteHospital( _id )
         .subscribe( resp => {
