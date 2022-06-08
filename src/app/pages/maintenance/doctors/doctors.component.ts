@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { delay, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 // Models
 import { Doctor } from 'src/app/models/doctor.model';
 // Services
-import { DoctorService } from 'src/app/services/doctor.service';
-import { ModalImgService } from 'src/app/services';
+import { DoctorService, ModalImgService, SearchesService } from 'src/app/services';
 
 @Component({
   selector: 'app-doctors',
@@ -12,7 +12,7 @@ import { ModalImgService } from 'src/app/services';
   styles: [
   ]
 })
-export class DoctorsComponent implements OnInit {
+export class DoctorsComponent implements OnInit, OnDestroy {
   public totalDoctors: number = 0;
   public doctors: Doctor[] = [];
   public doctorsTemp: Doctor[] = [];
@@ -20,10 +20,22 @@ export class DoctorsComponent implements OnInit {
   public loading: boolean = false;
   public type: string = 'doctors';
 
+
+  private imgSubs: Subscription;
+
   constructor(
     private doctorService: DoctorService,
-    private modalImgService: ModalImgService
-  ) {}
+    private modalImgService: ModalImgService,
+    private searchesService: SearchesService
+  ) {
+    this.imgSubs = this.modalImgService.newImg
+      .pipe( delay( 100 ) )
+      .subscribe( img => this.loadDoctors() )
+  }
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.loadDoctors();
@@ -35,6 +47,7 @@ export class DoctorsComponent implements OnInit {
       ({ total, doctors }) => {
         this.totalDoctors = total;
         this.doctors = doctors;
+        this.doctorsTemp = doctors;
         this.loading = false;
       }
     )
@@ -65,6 +78,14 @@ export class DoctorsComponent implements OnInit {
   }
 
   search( term: string ) {
+    if ( term.length === 0 ) {
+      return this.doctors = this.doctorsTemp;
+    }
+
+    return this.searchesService.search( 'doctors', term )
+    .subscribe( (resp: any) => {
+      this.doctors = resp;
+    })
   }
 
   openModal( doctor: Doctor ) {

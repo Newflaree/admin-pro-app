@@ -13,7 +13,6 @@ export class FileUploadService {
 
   async updateImg( file: any, type: 'users' | 'doctors' | 'hospitals', id: string ) {
     try {
-      console.log( file );
       const url = `${ base_url }/uploads/${ type }/${ id }`;
       const formData = new FormData();
       formData.append( 'file', file );

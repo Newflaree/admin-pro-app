@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {Hospital} from '../models/hospital.model';
 // Models
-import { User } from '../models/user.model';
+import { Doctor, Hospital, User } from '../models';
 
 const base_url = environment.base_url;
 
@@ -51,10 +50,20 @@ export class SearchesService {
     )
   }
 
+  private transformDoctor( results: any[] = [] ): Doctor[] {
+    return results.map(
+      (doctor: Doctor) => new Doctor( 
+        doctor.name, 
+        doctor._id,
+        doctor.img, 
+      )
+    )
+  }
+
   search( collection: 'users' | 'doctors' | 'hospitals', term: string = '' ) {
     const url = `${ base_url }/searches/${ collection }/${ term }`;
 
-    return this.http.get<User[] | Hospital[]>( url, this.headers )
+    return this.http.get<User[] | Hospital[] | Doctor[]>( url, this.headers )
     .pipe(
       map( (resp: any) => {
         switch( collection ) {
@@ -65,7 +74,7 @@ export class SearchesService {
             return this.transformHospital( resp.results );
 
           case 'doctors':
-            return this.transformUser( resp.results );
+            return this.transformDoctor( resp.results );
 
           default:
             return [];
