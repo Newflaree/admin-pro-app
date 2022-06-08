@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 // Models
-import { Hospital } from 'src/app/models';
+import { Doctor, Hospital } from 'src/app/models';
 // Services
 import { DoctorService, HospitalService } from 'src/app/services';
 
@@ -49,30 +49,47 @@ export class DoctorComponent implements OnInit {
   }
 
   loadDoctor( id: string ) {
-    this.doctorService.loadDoctor( id )
-    .subscribe( doctor => {
-      console.log( doctor );
+    if ( id === 'new' ) {
+      return;
+    }
+
+    return this.doctorService.loadDoctor( id )
+    .subscribe( (doctor: any) => {
+      const { name, hospital: { _id } } = doctor;
+
       this.selectedDoctor = doctor;
-    })
+      return this.doctorForm.setValue({ name, hospital: _id });
+    }, err => {
+      return this.router.navigateByUrl('/dashboard/doctors');
+    });
   }
 
   saveDoctor() {
-    const { name, hospital } = this.doctorForm.value;
+    if ( this.selectedDoctor ) {
+      this.doctorService.updateDoctor(
+        this.selectedDoctor._id,
+        this.selectedDoctor.name,
+        this.selectedDoctor.hospital
+      ).subscribe( resp => console.log(resp))
 
-    this.doctorService.createDoctor( name, hospital )
-    .subscribe( (resp: any) => {
-      const { doctor } = resp;
-      Swal.fire(
-        'Created',
-        'Successfully created doctor',
-        'success'
-      );
-      this.router.navigateByUrl(`/dashboard/doctor/${ doctor._id }`)
-    }, err => {
-      Swal.fire(
-        'Error',
-        err.error.errors[0].msg
-      );
-    });
+    } else {
+      const { name, hospital } = this.doctorForm.value;
+
+      this.doctorService.createDoctor( name, hospital )
+      .subscribe( (resp: any) => {
+        const { doctor } = resp;
+        Swal.fire(
+          'Created',
+          'Successfully created doctor',
+          'success'
+        );
+        this.router.navigateByUrl(`/dashboard/doctor/${ doctor._id }`)
+      }, err => {
+        Swal.fire(
+          'Error',
+          err.error.errors[0].msg
+        );
+      });
+    }
   }
 }

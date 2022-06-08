@@ -16,10 +16,12 @@
             >
               <label for="exampleInputuname">Photo</label>
               <div class="input-group">
-                <img
-                  class="w200"
-                  [src]="selectedDoctor.img | image:'doctors':selectedDoctor._id"
-                />
+                <p>
+                  <img
+                    class="w200"
+                    [src]="selectedDoctor.img | image:'doctors':selectedDoctor._id"
+                  />
+                </p>
               </div>
             </div>
 

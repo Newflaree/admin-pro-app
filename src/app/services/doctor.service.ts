@@ -67,6 +67,14 @@ export class DoctorService {
     );
   }
 
+  updateDoctor( _id: string, name: string, hospital: string ) {
+    return this.http.put(
+      `${ base_url }/doctors/${ _id }`,
+      { name, hospital },
+      this.headers
+    );
+  }
+
   deleteDoctor( _id: string ) {
     const url = `${ base_url }/doctors/${ _id }`
     return this.http.delete( url, this.headers );
