@@ -62,14 +62,17 @@
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div
+    class="col-md-6 animated fadeIn fast"
+    *ngIf="selectedHospital"
+  >
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Hospital</h4>
-        <h6 class="card-subtitle">Assigned hospital</h6>
+        <h6 class="card-subtitle">{{ selectedHospital.name }}</h6>
         <img
-          class="w200"
-          src="http://localhost:3001/api/uploads/users/6282ed9807eff3ca76d077b3" 
+          class="img-thumbnail"
+          [src]="selectedHospital.img | image:'hospitals':selectedHospital._id"
         />
       </div>
     </div>

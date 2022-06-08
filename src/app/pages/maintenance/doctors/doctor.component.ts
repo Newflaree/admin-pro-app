@@ -12,6 +12,7 @@ import {HospitalService} from 'src/app/services';
 export class DoctorComponent implements OnInit {
   public doctorForm: FormGroup;
   public hospitals: Hospital[] = [];
+  public selectedHospital: any;
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +26,10 @@ export class DoctorComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadHospitals();
+    this.doctorForm.get( 'hospital' )?.valueChanges
+    .subscribe( hospitalId => {
+      this.selectedHospital = this.hospitals.find( h => h._id === hospitalId )
+    })
   }
 
   loadHospitals() {
