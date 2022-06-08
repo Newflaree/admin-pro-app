@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 // Interfaces
-import { LoadDoctors } from '../interfaces/load-doctors.interface';
+import { LoadDoctor, LoadDoctors } from '../interfaces/load-doctors.interface';
 // Models
 import { Doctor } from '../models/doctor.model';
 
@@ -49,8 +49,14 @@ export class DoctorService {
     );
   }
   
-  loadDoctor() {
-
+  loadDoctor( id: string ) {
+    const url = `${ base_url }/doctors/${ id }`
+    return this.http.get<LoadDoctor>( url, this.headers )
+    .pipe(
+      map( (resp: { doctor: Doctor }) => {
+        return resp.doctor;
+      })
+    );
   }
 
   createDoctor( name: string, hospital: string ) {

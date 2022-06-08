@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 // Models
 import { Hospital } from 'src/app/models';
@@ -20,6 +20,7 @@ export class DoctorComponent implements OnInit {
   public selectedDoctor: any;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private doctorService: DoctorService,
     private fb: FormBuilder,
     private hospitalService: HospitalService,
@@ -32,6 +33,9 @@ export class DoctorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe( ({ id }) => {
+      this.loadDoctor( id );
+    })
     this.loadHospitals();
     this.doctorForm.get( 'hospital' )?.valueChanges
     .subscribe( hospitalId => {
@@ -42,6 +46,14 @@ export class DoctorComponent implements OnInit {
   loadHospitals() {
     this.hospitalService.loadHospitals()
     .subscribe( ({ hospitals }) => this.hospitals = hospitals || [] )
+  }
+
+  loadDoctor( id: string ) {
+    this.doctorService.loadDoctor( id )
+    .subscribe( doctor => {
+      console.log( doctor );
+      this.selectedDoctor = doctor;
+    })
   }
 
   saveDoctor() {

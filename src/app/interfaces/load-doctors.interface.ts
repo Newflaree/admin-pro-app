@@ -5,3 +5,7 @@ export interface LoadDoctors {
   total: number;
   doctors: Doctor[];
 }
+
+export interface LoadDoctor {
+  doctor: Doctor;
+}
