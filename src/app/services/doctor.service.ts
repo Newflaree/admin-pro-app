@@ -48,6 +48,18 @@ export class DoctorService {
       })
     );
   }
+  
+  loadDoctor() {
+
+  }
+
+  createDoctor( name: string, hospital: string ) {
+    return this.http.post(
+      `${ base_url }/doctors`,
+      { name, hospital },
+      this.headers
+    );
+  }
 
   deleteDoctor( _id: string ) {
     const url = `${ base_url }/doctors/${ _id }`

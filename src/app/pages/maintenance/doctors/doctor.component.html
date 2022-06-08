@@ -10,15 +10,19 @@
             [formGroup]="doctorForm"
             (submit)="saveDoctor()"
         >
-            <div class="form-group">
+            <div
+              class="form-group"
+              *ngIf="selectedDoctor"
+            >
               <label for="exampleInputuname">Photo</label>
               <div class="input-group">
                 <img
                   class="w200"
-                  src="http://localhost:3001/api/uploads/users/6282ed9807eff3ca76d077b3" 
+                  [src]="selectedDoctor.img | image:'doctors':selectedDoctor._id"
                 />
               </div>
             </div>
+
             <div class="form-group">
               <label for="exampleInputuname">Name</label>
               <div class="input-group">
@@ -50,7 +54,8 @@
               </div>
             </div>
           <button
-            [disabled]="doctorForm.invalid"
+              [disabled]="doctorForm.invalid"
+              (click)="saveDoctor()"
             type="submit"
             class="btn btn-success waves-effect waves-light m-r-10"
           >
