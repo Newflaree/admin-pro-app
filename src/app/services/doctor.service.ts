@@ -72,7 +72,12 @@ export class DoctorService {
       `${ base_url }/doctors/${ _id }`,
       { name, hospital },
       this.headers
-    );
+    ).pipe(
+      map( (resp: any) => {
+        const { doctor } = resp;
+        return doctor;
+      })
+    )
   }
 
   deleteDoctor( _id: string ) {

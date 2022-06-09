@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { delay } from 'rxjs';
 import Swal from 'sweetalert2';
 // Models
 import { Doctor, Hospital } from 'src/app/models';
@@ -17,7 +18,7 @@ export class DoctorComponent implements OnInit {
   public doctorForm: FormGroup;
   public hospitals: Hospital[] = [];
   public selectedHospital: any;
-  public selectedDoctor: any;
+  public selectedDoctor: Doctor | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,6 +27,7 @@ export class DoctorComponent implements OnInit {
     private hospitalService: HospitalService,
     private router: Router
   ) { 
+    this.selectedDoctor = undefined;
     this.doctorForm = this.fb.group({
       name: [ '', Validators.required ],
       hospital: [ '', Validators.required ]
@@ -33,7 +35,11 @@ export class DoctorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe( ({ id }) => {
+    this.activatedRoute.params
+    .pipe(
+      delay( 500 )
+    )
+    .subscribe( ({ id }) => {
       this.loadDoctor( id );
     })
     this.loadHospitals();
@@ -45,7 +51,9 @@ export class DoctorComponent implements OnInit {
 
   loadHospitals() {
     this.hospitalService.loadHospitals()
-    .subscribe( ({ hospitals }) => this.hospitals = hospitals || [] )
+    .subscribe( ({ hospitals }) => {
+      this.hospitals = hospitals || []
+    })
   }
 
   loadDoctor( id: string ) {
@@ -54,7 +62,9 @@ export class DoctorComponent implements OnInit {
     }
 
     return this.doctorService.loadDoctor( id )
-    .subscribe( (doctor: any) => {
+    .pipe(
+      delay( 100 )
+    ).subscribe( (doctor: any) => {
       const { name, hospital: { _id } } = doctor;
 
       this.selectedDoctor = doctor;
@@ -66,18 +76,31 @@ export class DoctorComponent implements OnInit {
 
   saveDoctor() {
     if ( this.selectedDoctor ) {
-      this.doctorService.updateDoctor(
-        this.selectedDoctor._id,
-        this.selectedDoctor.name,
-        this.selectedDoctor.hospital
-      ).subscribe( resp => console.log(resp))
+      const data = {
+        id: this.selectedDoctor._id || '',
+        name: this.doctorForm.get('name')?.value,
+        hospital: this.doctorForm.get('hospital')?.value
+      }
+
+      return this.doctorService.updateDoctor(
+        data.id,
+        data.name,
+        data.hospital
+      ).subscribe( resp => {
+        Swal.fire(
+          'Doctor Updated',
+          'Successfully updated doctor',
+          'success'
+        )
+      })
 
     } else {
       const { name, hospital } = this.doctorForm.value;
 
-      this.doctorService.createDoctor( name, hospital )
+      return this.doctorService.createDoctor( name, hospital )
       .subscribe( (resp: any) => {
         const { doctor } = resp;
+
         Swal.fire(
           'Created',
           'Successfully created doctor',
@@ -87,7 +110,8 @@ export class DoctorComponent implements OnInit {
       }, err => {
         Swal.fire(
           'Error',
-          err.error.errors[0].msg
+          err.error.errors[0].msg,
+          'error'
         );
       });
     }

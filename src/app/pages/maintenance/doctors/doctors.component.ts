@@ -43,8 +43,9 @@ export class DoctorsComponent implements OnInit, OnDestroy {
 
   loadDoctors() {
     this.loading = true;
-    this.doctorService.loadDoctors().subscribe(
-      ({ total, doctors }) => {
+
+    this.doctorService.loadDoctors( this.from )
+    .subscribe( ({ total, doctors }) => {
         this.totalDoctors = total;
         this.doctors = doctors;
         this.doctorsTemp = doctors;
@@ -96,6 +97,15 @@ export class DoctorsComponent implements OnInit, OnDestroy {
   }
 
   changePage( value: number ) {
+    this.from += value;
+
+    if ( this.from < 0 ) {
+      this.from = 0;
+    } else if ( this.from > this.totalDoctors ) {
+      this.from -= value;
+    }
+
+    this.loadDoctors();
   }
 
 }
