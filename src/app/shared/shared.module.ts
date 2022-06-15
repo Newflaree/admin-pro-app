@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 // Modules
 import { PipesModule } from '../pipes/pipes.module';
@@ -18,6 +19,7 @@ import { HeaderComponent } from './header/header.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PipesModule,
     RouterModule
   ], 

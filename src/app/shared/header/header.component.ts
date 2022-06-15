@@ -19,6 +19,10 @@ export class HeaderComponent {
     this.user = userService.user;
   }
 
+  search( term: string ) {
+    console.log( term );
+  }
+
   logout() {
     this.userService.logout();
   }
