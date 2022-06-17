@@ -60,6 +60,14 @@ export class SearchesService {
     )
   }
 
+  globalSearch( term: string ) {
+    const url = `${ base_url }/searches/global/${ term }`;
+
+    return this.http.get( url, this.headers ).pipe(
+      map( (resp: any) => resp.results )
+    );
+  }
+
   search( collection: 'users' | 'doctors' | 'hospitals', term: string = '' ) {
     const url = `${ base_url }/searches/${ collection }/${ term }`;
 
