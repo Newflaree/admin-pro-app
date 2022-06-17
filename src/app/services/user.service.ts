@@ -13,6 +13,17 @@ import { User } from '../models/user.model';
 
 const base_url = environment.base_url;
 
+interface Submenu {
+  title: string;
+  url: string;
+}
+
+interface Menu {
+  title: string;
+  icon: string;
+  submenu: Submenu[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,10 +57,15 @@ export class UserService {
     }
   }
 
+  saveLocalStorege( token: string, menu: Menu ) {
+    localStorage.setItem( 'token', token );
+    localStorage.setItem( 'menu', menu.toString() );
+  }
+
   tokenValidator(): Observable<boolean> {
     return this.http.get(`${ base_url }/auth/renew`, this.headers ).pipe(
       map( (resp:any) => {
-        const { token } = resp;
+        const { token, menu } = resp;
         const {
           email,
           name,
@@ -60,7 +76,7 @@ export class UserService {
 
         this.user = new User(name, email, '', role, img, uid);
 
-        localStorage.setItem( 'token', token );
+        this.saveLocalStorege( token, menu );
         return true;
       }),
       catchError( error => of(false) )
@@ -71,8 +87,9 @@ export class UserService {
     return this.http.post( `${ base_url }/auth/register`, formData )
       .pipe(
         tap( (resp:any) => {
-          const { token } = resp;
-          localStorage.setItem( 'token', token );
+          const { token, menu } = resp;
+
+          this.saveLocalStorege( token, menu );
         })
       );
   }
@@ -85,14 +102,16 @@ export class UserService {
     return this.http.post( `${ base_url }/auth/login`, formData )
       .pipe(
         tap( (resp:any) => {
-          const { token } = resp;
-          localStorage.setItem( 'token', token );
+          const { token, menu } = resp;
+
+          this.saveLocalStorege( token, menu );
         })
       );
   }
 
   logout() {
     localStorage.removeItem( 'token' );
+    //TODO: Borrar manu
     this.router.navigateByUrl( '/login' );
   }
 
