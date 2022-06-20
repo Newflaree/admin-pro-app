@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit {
     this.userService.updateUser( this.profileForm.value )
       .subscribe( (resp:any) => {
         const { name, email } = resp.user;
+
         this.user.name = name;
         this.user.email = email;
 
