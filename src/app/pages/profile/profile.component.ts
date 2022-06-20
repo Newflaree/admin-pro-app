@@ -34,7 +34,6 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    console.log( this.profileForm.value );
     this.userService.updateUser( this.profileForm.value )
       .subscribe( (resp:any) => {
         const { name, email } = resp.user;
@@ -43,8 +42,8 @@ export class ProfileComponent implements OnInit {
 
         Swal.fire( 'Saved', 'Changes saved successfully', 'success' );
       }, (err) => {
-        //TODO: implementar error desde el backend
-        console.log( err );
+        const msg = err.error.msg;
+        Swal.fire( 'Error', msg, 'error' )
       });
   }
 
