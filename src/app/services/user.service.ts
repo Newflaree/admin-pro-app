@@ -18,7 +18,7 @@ interface Submenu {
   url: string;
 }
 
-interface Menu {
+export interface Menu {
   title: string;
   icon: string;
   submenu: Submenu[];
@@ -59,7 +59,7 @@ export class UserService {
 
   saveLocalStorege( token: string, menu: Menu ) {
     localStorage.setItem( 'token', token );
-    localStorage.setItem( 'menu', menu.toString() );
+    localStorage.setItem( 'menu', JSON.stringify( menu ) );
   }
 
   tokenValidator(): Observable<boolean> {
@@ -111,7 +111,8 @@ export class UserService {
 
   logout() {
     localStorage.removeItem( 'token' );
-    //TODO: Borrar manu
+    localStorage.removeItem( 'menu' );
+
     this.router.navigateByUrl( '/login' );
   }
 
