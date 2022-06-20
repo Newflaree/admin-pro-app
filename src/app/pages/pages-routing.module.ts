@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // Guards
-import { AuthGuard } from '../guards/auth.guard';
+import { AdminGuard, AuthGuard } from '../guards';
 // Components
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -11,12 +11,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { SearchesComponent } from './searches/searches.component';
       // Maintenance
 import { DoctorsComponent } from './maintenance/doctors/doctors.component';
 import { DoctorComponent } from './maintenance/doctors/doctor.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { UsersComponent } from './maintenance/users/users.component';
-import {SearchesComponent} from './searches/searches.component';
 
 const routes: Routes = [
   { 
@@ -83,13 +83,6 @@ const routes: Routes = [
 
       // Maintenance
       { 
-        path: 'users',
-        component: UsersComponent,
-        data: { 
-          title: 'Users Maintenance'
-        } 
-      },
-      { 
         path: 'hospitals',
         component: HospitalsComponent,
         data: { 
@@ -108,6 +101,15 @@ const routes: Routes = [
         component: DoctorComponent,
         data: { 
           title: 'Doctor Maintenance'
+        } 
+      },
+      // Admin Routes
+      { 
+        path: 'users',
+        canActivate: [ AdminGuard ],
+        component: UsersComponent,
+        data: { 
+          title: 'Users Maintenance'
         } 
       }
     ]
